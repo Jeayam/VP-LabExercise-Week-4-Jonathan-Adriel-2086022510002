@@ -1,3 +1,6 @@
+### Penjelasan dan pengerjaan di bantu AI 😭🙏
+
+
 ### 1. A Text inside a Row overflows. Which part of "constraints go down, sizes go up, parent sets position" was violated, and by which widget?
 Bagian "constraints go down" dilanggar oleh widget Row yang memberikan unbounded width constraint (lebar tanpa batas, $0 \le width \le \infty$) kepada anak-anaknya. Akibatnya, widget Text mengukur ukurannya berdasarkan panjang teks dan melebihi lebar layar yang tersedia.
 
@@ -7,7 +10,7 @@ Menambahkan width: 150 adalah solusi hardcoded kaku yang hanya berfungsi untuk s
 
 
 
-### 3. You fixed the landscape overflow by wrapping everything in a SingleChildScrollView and setting shrinkWrap: true on the list. Which test fails, and why does it matter once the data comes from an API?
+### 3. You fixed the landscape overflow by wrapping everytshing in a SingleChildScrollView and setting shrinkWrap: true on the list. Which test fails, and why does it matter once the data comes from an API?
 **Tes 7 500 items — built lazily akan gagal karena shrinkWrap: true memaksa list merender seluruh 500 item di memori sekaligus untuk menghitung total tingginya. Hal ini menghancurkan *view virtualization* (lazy loading) dan dapat menyebabkan lag atau crash ketika data berukuran besar diambil dari API.
 
 
