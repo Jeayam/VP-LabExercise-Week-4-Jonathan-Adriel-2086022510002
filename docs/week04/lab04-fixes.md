@@ -1,0 +1,14 @@
+# Lab 04 Fix Log — "The Unbreakable Screen"
+
+| Widget | Error / symptom | Rule broken | Fix |
+| :--- | :--- | :--- | :--- |
+| **StoreHeader** | RenderFlex overflowed on the right at 320 dp | Row gave Column and rating Text unbounded width | Wrapped Column in `Expanded`, rating Text in `Flexible`, added `maxLines: 1` + `ellipsis` |
+| **CategoryBar** | RenderFlex overflowed on the right by 576 pixels | Row of ChoiceChips exceeded screen width without scrollable parent | Wrapped Row in `SingleChildScrollView` with `scrollDirection: Axis.horizontal` |
+| **PromoStrip & PromoCard** | Horizontal overflow of 128 px; vertical overflow of 34 px in PromoCard | Row of fixed cards exceeded screen width; long promo title pushed price out of card | `PromoStrip` wrapped in `SingleChildScrollView(horizontal)`; `PromoCard` item name wrapped in `Expanded` with `maxLines: 2` + `ellipsis` |
+| **MenuTile** | RenderFlex overflowed on the right by 254 px on 200-char name | Row gave Text unbounded width, pushing price and button off screen | Wrapped title Column in `Expanded`, price in `Flexible`, removed `Spacer`, added `maxLines: 2` + `ellipsis` |
+| **MenuCard** | Vertical overflow in grid cell with 200-char name | Fixed container height + long text caused Column content to exceed card height | Made top icon container `Expanded`, added `maxLines: 2` + `ellipsis` on title and `maxLines: 1` on price/button |
+| **MenuScreen (Breakpoint)** | At 800 dp tablet size, phone list was used instead of grid | Breakpoint must use `LayoutBuilder` and change structure at >= 600 dp | Used `LayoutBuilder` checking `constraints.maxWidth >= 600` to switch between `SliverGrid.builder` and `SliverList.builder` |
+| **MenuScreen (Keyboard/Landscape)** | Column overflowed vertically on short screen or keyboard open | Static widgets + list in rigid Column exceeded available vertical height | Replaced `Column` with `CustomScrollView` and Slivers so all elements scroll vertically |
+| **MenuScreen (Empty Data)** | Crash / blank screen on zero items or empty promo list | Zero items must display a dedicated empty state with `key: const Key('empty-state')` | Added `EmptyState` widget with `key: const Key('empty-state')`, icon, message, and action; guarded promo indexing with `promos.length >= 2` |
+| **ListView / GridView** | All 500 items built at once upfront (failed lazy build check) | Long lists must be built lazily using `.builder` constructors without `shrinkWrap: true` | Used `SliverList.builder` and `SliverGrid.builder` for virtualized rendering |
+| **CartBar & Gesture Bar** | Overflowed on the right by 315 px; order button sat under gesture bar | Unbounded text width in Row; interactive elements must sit inside safe area | Wrapped order text in `Expanded` + `maxLines: 1` + `ellipsis`; wrapped CartBar contents in `SafeArea(top: false)` |
